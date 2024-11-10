@@ -1,6 +1,7 @@
 from dataset_loader import load_data_from_folder
 from model import create_model
 from sklearn.metrics import classification_report, accuracy_score
+import joblib
 
 
 def train_and_evaluate(train_dir, val_dir):
@@ -13,6 +14,9 @@ def train_and_evaluate(train_dir, val_dir):
 
     # Huấn luyện mô hình
     model.fit(X_train, y_train)
+
+    # Lưu mô hình
+    joblib.dump(model, "src/svm_model.pkl")
 
     # Dự đoán và đánh giá
     y_pred = model.predict(X_val)
