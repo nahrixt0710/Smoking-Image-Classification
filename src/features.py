@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from skimage import feature, io, color
 
 BIN_SIZE = 64
 
@@ -13,3 +14,18 @@ def extract_color_histogram(
         channel_hist = cv2.normalize(channel_hist, channel_hist).flatten()
         hist.extend(channel_hist)
     return np.array(hist)
+
+
+def extract_hog(image):
+    # Đọc và chuyển đổi hình ảnh sang grayscale
+    # image = color.rgb2gray(image)
+
+    # Tính đặc trưng HOG
+    hog_features = feature.hog(
+        image,
+        pixels_per_cell=(8, 8),
+        cells_per_block=(2, 2),
+        block_norm="L2-Hys",
+        visualize=False,
+    )
+    return hog_features
