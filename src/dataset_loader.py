@@ -27,3 +27,9 @@ def load_data_from_folder(folder_path):
         else:
             print(f"Can't load image: {img_name}")
     return np.array(data), np.array(labels)
+
+
+def predict(image, model):
+    features = preprocess(image)
+    prediction = model.predict([features])
+    return "Not smoking" if prediction[0] == 0 else "Smoking"
