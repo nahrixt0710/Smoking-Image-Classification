@@ -17,10 +17,9 @@ def extract_color_histogram(
 
 
 def extract_hog(image):
-    # Đọc và chuyển đổi hình ảnh sang grayscale
-    # image = color.rgb2gray(image)
 
-    # Tính đặc trưng HOG
+    image = color.rgb2gray(image)
+
     hog_features = feature.hog(
         image,
         pixels_per_cell=(8, 8),
