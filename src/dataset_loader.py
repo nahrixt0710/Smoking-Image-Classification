@@ -10,11 +10,11 @@ def preprocess(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     feature = extract_color_histogram(image)
+
     # feature = extract_hog(image)
     # feature = extract_(image)
 
     return feature
-
 
 
 def load_data_from_folder(folder_path):

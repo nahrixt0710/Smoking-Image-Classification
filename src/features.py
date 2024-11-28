@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from skimage import feature, io, color
 
-BIN_SIZE = 64
+BIN_SIZE = 32
 
 
 def extract_color_histogram(
