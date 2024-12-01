@@ -14,7 +14,6 @@ def train_and_evaluate(train_dir, val_dir):
 
     joblib.dump(model, "src/checkpoint/color_histogram.pkl")
     # joblib.dump(model, "src/checkpoint/hog.pkl")
-    # joblib.dump(model, "src/checkpoint/.pkl")
 
     y_pred = model.predict(X_val)
     accuracy = accuracy_score(y_val, y_pred)

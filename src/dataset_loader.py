@@ -2,16 +2,18 @@ import os
 import cv2
 import numpy as np
 from features import *
+from utils import normalize_data
 
 
 def preprocess(image):
 
     image = cv2.resize(image, (64, 64))
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    # image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     feature = extract_color_histogram(image)
     # feature = extract_hog(image)
-    # feature = extract_(image)
+
+    feature = normalize_data(np.array([feature]))[0]
 
     return feature
 
