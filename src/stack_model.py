@@ -30,9 +30,9 @@ Accuracy: 0.7722222222222223
 
 base_models = [
     # ('svm_rbf', SVC(kernel='rbf')),
-    ('svm_rbf', SVC(kernel='rbf', C=1, gamma=1)),
+    ("svm_rbf", SVC(kernel="rbf", C=1, gamma=1)),
     # ('svm_linear', SVC(kernel="linear", C=0.1)),
-    ('knn', KNeighborsClassifier(n_neighbors=1)),
+    ("knn", KNeighborsClassifier(n_neighbors=1)),
     # ('rf', RandomForestClassifier(n_estimators=50))
 ]
 
@@ -41,9 +41,7 @@ meta_model = LogisticRegression()
 
 # Stacking Classifier
 stacked_model = StackingClassifier(
-    estimators=base_models,
-    final_estimator=meta_model,
-    cv=5
+    estimators=base_models, final_estimator=meta_model, cv=5
 )
 
 train_dir = "data/Training/images"

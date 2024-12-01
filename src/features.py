@@ -27,4 +27,4 @@ def extract_hog(image):
         block_norm="L2-Hys",
         visualize=False,
     )
-    return hog_features 
+    return hog_features

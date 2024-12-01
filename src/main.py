@@ -5,24 +5,24 @@ import joblib
 
 
 def train_and_evaluate(train_dir, val_dir, model_name):
-    
+
     X_train, y_train = load_data_from_folder(train_dir)
     X_val, y_val = load_data_from_folder(val_dir)
 
     model = create_model(model_name)
     model.fit(X_train, y_train)
 
-    joblib.dump(model, "src/checkpoint/color_histogram.pkl")
+    joblib.dump(model, "src/checkpoint/knn.pkl")
     # joblib.dump(model, "src/checkpoint/hog.pkl")
 
     y_pred = model.predict(X_val)
     accuracy = accuracy_score(y_val, y_pred)
-    print(f"Accuracy: {accuracy:.2f}")
+    print(f"Accuracy for {model_name}: {accuracy}")
     print("Classification Report:\n", classification_report(y_val, y_pred))
 
 
 if __name__ == "__main__":
-    
+
     train_dir = "data/Training/images"
     val_dir = "data/Validation/images"
 
