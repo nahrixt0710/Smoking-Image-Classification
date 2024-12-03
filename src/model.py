@@ -6,13 +6,11 @@ from sklearn.ensemble import RandomForestClassifier
 def create_model(model_name="svm"):
     if model_name == "svm":
         return SVC(
-            kernel="linear", C=0.01
-        )  # linear không cần gamma, best accuracy : 0.7611111111111111
+            kernel="linear", C=0.001
+        )  # linear không cần gamma, best accuracy : 0.7777777777777778
 
     elif model_name == "knn":
         return KNeighborsClassifier(n_neighbors=5)
 
     elif model_name == "rf":
-        return RandomForestClassifier(n_estimators=100)
-
-    # return SVC(kernel="rbf", C=1, gamma=1)
+        return RandomForestClassifier(n_estimators=50, random_state=42)

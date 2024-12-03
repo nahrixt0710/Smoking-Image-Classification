@@ -12,8 +12,8 @@ def train_and_evaluate(train_dir, val_dir, model_name):
     model = create_model(model_name)
     model.fit(X_train, y_train)
 
-    joblib.dump(model, "src/checkpoint/knn.pkl")
-    # joblib.dump(model, "src/checkpoint/hog.pkl")
+    file_path = f"src/checkpoint/{model_name}.pkl"
+    joblib.dump(model, file_path)
 
     y_pred = model.predict(X_val)
     accuracy = accuracy_score(y_val, y_pred)

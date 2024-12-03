@@ -19,13 +19,13 @@ def normalize_data(data):
 
 def preprocess(image):
 
-    image = cv2.resize(image, (128, 128))
-    # image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    image = cv2.resize(image, (32, 32))
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     feature = extract_color_histogram(image)
     # feature = extract_hog(image)
 
-    feature = normalize_data(np.array([feature]))[0]
+    # feature = normalize_data(np.array([feature]))[0]
 
     return feature
 
