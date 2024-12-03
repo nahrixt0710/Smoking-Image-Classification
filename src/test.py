@@ -13,9 +13,7 @@ import cv2
 BIN_SIZE = 32
 
 
-def extract_color_histogram(
-    image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE), color_space="RGB"
-):
+def extract_color_histogram(image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE), color_space="RGB"):
     hist = []
     for i in range(3):
         channel_hist = cv2.calcHist([image], [i], None, [bins[i]], [0, 256])
@@ -49,9 +47,10 @@ def load_data_from_folder(folder_path, bin_size, img_size):
     return np.array(data), np.array(labels)
 
 
-def create_model(C, gamma, kernel):
+def create_model(k, distance_metric):
     # return RandomForestClassifier(n_estimators=n_estimators,random_state=42)
-    return SVC(kernel=kernel, C=C, gamma=gamma)
+    # return SVC(kernel=kernel, C=C, gamma=gamma)
+    return KNeighborsClassifier(n_neighbors=k, metric=distance_metric)
 
 
 if __name__ == "__main__":
@@ -59,8 +58,10 @@ if __name__ == "__main__":
     img_sizes = [32, 64, 128]
     bins = [8, 16, 32, 64, 128]
     # n_estimators_list = [10, 50, 100, 200]
-    C_list = [0.001, 0.01, 0.1, 1, 10]
-    gamma_list = [0.001, 0.01, 0.1, 1, 10]
+    # C_list = [0.001, 0.01, 0.1, 1, 10]
+    # gamma_list = [0.001, 0.01, 0.1, 1, 10]
+    k_list = [1, 3, 5, 7, 9]  # Số lượng láng giềng (k)
+    distance_metrics = ["euclidean", "manhattan", "chebyshev", "minkowski"]
     kernels = ["linear", "rbf"]
     for bin_size in bins:
         BIN_SIZE = bin_size
@@ -69,25 +70,23 @@ if __name__ == "__main__":
             val_dir = "C:\\study\\ComputerVision\\NhapMonCV_SmokingDetection\\NhapMonCV-Smoking-Image-Classification\\data\\Validation\\images"  # Update this path if needed
             X_train, y_train = load_data_from_folder(train_dir, bin_size, img_size)
             X_val, y_val = load_data_from_folder(val_dir, bin_size, img_size)
-            for kernel in kernels:
-                for C in C_list:
-                    for gamma in gamma_list:
-                        # print(f"\n\nC: {C}, Bin Size: {bin_size}, Image Size: {img_size}")
-                        model = create_model(C=C, gamma=gamma, kernel=kernel)
-                        model.fit(X_train, y_train)
-                        y_pred = model.predict(X_val)
-                        accuracy = accuracy_score(y_val, y_pred)
-                        # print(f"\tAccuracy: {accuracy:.3f}")
-                        rf_results.append(
-                            {
-                                "bin_size": bin_size,
-                                "img_size": img_size,
-                                "kernel": kernel,
-                                "gamma": gamma,
-                                "C": C,
-                                "accuracy": round(accuracy, 4),
-                            }
-                        )
+            for k in k_list:
+                for dm in distance_metrics:
+                    # print(f"\n\nC: {C}, Bin Size: {bin_size}, Image Size: {img_size}")
+                    model = create_model(k, dm)
+                    model.fit(X_train, y_train)
+                    y_pred = model.predict(X_val)
+                    accuracy = accuracy_score(y_val, y_pred)
+                    # print(f"\tAccuracy: {accuracy:.3f}")
+                    rf_results.append(
+                        {
+                            "bin_size": bin_size,
+                            "img_size": img_size,
+                            "k": k,
+                            "metric": dm,
+                            "accuracy": round(accuracy, 4),
+                        }
+                    )
 
     # # Create the output directory if it does not exist
     output_dir = ""
