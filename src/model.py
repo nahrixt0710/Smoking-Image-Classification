@@ -11,4 +11,4 @@ def create_model(model_name="svm"):
         return KNeighborsClassifier(n_neighbors=5, metric="manhattan")
 
     elif model_name == "rf":
-        return RandomForestClassifier(n_estimators=50, random_state=42)
+        return RandomForestClassifier(n_estimators=200, random_state=42)

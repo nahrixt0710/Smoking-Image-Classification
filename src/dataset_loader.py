@@ -4,22 +4,19 @@ import numpy as np
 from features import *
 
 
-def normalize_data(data):
+# def normalize_data(data):
 
-    # Tính norm (độ dài) của từng vector
-    norms = np.linalg.norm(data, axis=1, keepdims=True)
+#     norms = np.linalg.norm(data, axis=1, keepdims=True)
 
-    # Tránh chia cho 0 bằng cách thay norm = 0 thành 1
-    norms[norms == 0] = 1
+#     norms[norms == 0] = 1
 
-    # Chuẩn hóa dữ liệu
-    normalized_data = data / norms
-    return normalized_data
+#     normalized_data = data / norms
+#     return normalized_data
 
 
 def preprocess(image):
 
-    image = cv2.resize(image, (32, 32))
+    image = cv2.resize(image, (32, 32))  # default resize (32, 32)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     feature = extract_color_histogram(image)

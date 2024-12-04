@@ -26,6 +26,6 @@ if __name__ == "__main__":
     train_dir = "data/Training/images"
     val_dir = "data/Validation/images"
 
-    model_name = "knn"
+    model_name = "rf"
 
     train_and_evaluate(train_dir, val_dir, model_name)
