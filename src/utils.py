@@ -15,7 +15,7 @@ def extract_color_histogram(image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE)):
 
 def preprocess(image):
 
-    image = cv2.resize(image, (64, 64)) 
+    image = cv2.resize(image, (128, 128)) 
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     feature = extract_color_histogram(image)
