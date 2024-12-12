@@ -1,31 +1,26 @@
 import os
 import cv2
 import numpy as np
-from features import *
+from skimage import feature, io, color
 
+BIN_SIZE = 16
 
-# def normalize_data(data):
-
-#     norms = np.linalg.norm(data, axis=1, keepdims=True)
-
-#     norms[norms == 0] = 1
-
-#     normalized_data = data / norms
-#     return normalized_data
-
+def extract_color_histogram(image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE)):
+    hist = []
+    for i in range(3):
+        channel_hist = cv2.calcHist([image], [i], None, [bins[i]], [0, 256])
+        channel_hist = cv2.normalize(channel_hist, channel_hist).flatten()
+        hist.extend(channel_hist)
+    return np.array(hist)
 
 def preprocess(image):
 
-    image = cv2.resize(image, (32, 32))  # default resize (32, 32)
+    image = cv2.resize(image, (64, 64)) 
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     feature = extract_color_histogram(image)
-    # feature = extract_hog(image)
-
-    # feature = normalize_data(np.array([feature]))[0]
 
     return feature
-
 
 def load_data_from_folder(folder_path):
     data = []
@@ -55,3 +50,4 @@ def predict(image, model):
     prediction = model.predict([features])
 
     return "Not smoking" if prediction[0] == 0 else "Smoking"
+
