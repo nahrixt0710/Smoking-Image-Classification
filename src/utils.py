@@ -55,6 +55,17 @@ def predict(image, model):
     return "Not smoking" if prediction[0] == 0 else "Smoking"
 
 
+# KNN predict func in app
+def knn_predict(image, model, bin_size=16, image_size=128):
+    # Preprocess image
+    image = cv2.resize(image, (image_size, image_size))
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    features = extract_color_histogram(image, bins=(bin_size, bin_size, bin_size))
+
+    prediction = model.predict([features])
+    return "Not smoking" if prediction[0] == 0 else "Smoking"
+
+
 # utils to optimize bin size and image size
 
 
