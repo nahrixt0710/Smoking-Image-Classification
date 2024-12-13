@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from skimage import feature, io, color
 
-BIN_SIZE = 16
+BIN_SIZE = 8
 
 
 def extract_color_histogram(image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE)):
@@ -17,10 +17,20 @@ def extract_color_histogram(image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE)):
 
 def preprocess(image):
 
-    image = cv2.resize(image, (128, 128))
+    image = cv2.resize(image, (64, 64))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     feature = extract_color_histogram(image)
+
+    return feature
+
+
+def preprocess2(image, img_size, bin):
+
+    image = cv2.resize(image, (img_size, img_size))
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    feature = extract_color_histogram(image, (bin, bin, bin))
 
     return feature
 
