@@ -15,6 +15,7 @@ def extract_color_histogram(image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE)):
     return np.array(hist)
 
 
+# not used
 def preprocess(image):
 
     image = cv2.resize(image, (64, 64))
@@ -25,7 +26,8 @@ def preprocess(image):
     return feature
 
 
-def preprocess2(image, img_size, bin):
+# using
+def preprocess2(image, img_size=256, bin=16):
 
     image = cv2.resize(image, (img_size, img_size))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -35,6 +37,7 @@ def preprocess2(image, img_size, bin):
     return feature
 
 
+# not used
 def load_data_from_folder(folder_path):
     data = []
     labels = []
@@ -67,12 +70,7 @@ def predict(image, model):
 
 # KNN predict func in app
 def knn_predict(image, model, bin_size=16, image_size=128):
-    # Preprocess image
-    image = cv2.resize(image, (image_size, image_size))
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    features = extract_color_histogram(image, bins=(bin_size, bin_size, bin_size))
-
-    prediction = model.predict([features])
+    prediction = model.predict([image])
     return "Not smoking" if prediction[0] == 0 else "Smoking"
 
 
@@ -87,6 +85,8 @@ def load_raw_data(folder_path):
 
         img_path = os.path.join(folder_path, img_name)
         image = cv2.imread(img_path)
+        # change to 256x256 to have the same array size
+        image = cv2.resize(image, (256, 256))
 
         if image is not None:
             data.append(image)
@@ -108,33 +108,3 @@ def calc_hist(image, bin):
         channel_hist = cv2.normalize(channel_hist, channel_hist).flatten()
         hist.extend(channel_hist)
     return np.array(hist)
-
-
-class CustomFeatureExtractor:
-    def __init__(self, bins=16, image_size=128):
-        self.bins = bins
-        self.image_size = image_size
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        transformed = []
-        for image in X:
-            if self.image_size:
-                image = cv2.resize(image, (self.image_size, self.image_size))
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
-            hist = calc_hist(image, self.bins)
-            transformed.append(hist)
-        return np.array(transformed)
-
-    def set_params(self, **params):
-        # Cập nhật tham số
-        for key, value in params.items():
-            setattr(self, key, value)
-        return self
-
-    def get_params(self, deep=True):
-        # Lấy tham số
-        return {"bins": self.bins, "image_size": self.image_size}

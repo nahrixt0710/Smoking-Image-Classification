@@ -4,6 +4,7 @@ import pickle
 import cv2
 import numpy as np
 from src.utils import *
+import json
 
 # config
 st.set_page_config(page_title="Streamlit App", page_icon=":shark:")
@@ -20,12 +21,6 @@ else:
     st.write(
         "K-Nearest Neighbors (KNN) predicts based on the closest training examples."
     )
-# # KNN
-# if model_type == "KNN":
-#     bin_size = st.sidebar.slider("Bin Size", 1, 64, 16)  # Giá trị mặc định là 16
-#     image_size = st.sidebar.slider(
-#         "Image Size", 32, 256, 128
-#     )  # Giá trị mặc định là 128
 
 # upload image
 uploaded_image = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"])
@@ -44,10 +39,13 @@ if uploaded_image is not None:
         model = joblib.load(r"./src/checkpoint/svm_best_model.pkl")
         pred = predict(img, model)
     elif model_type == "KNN":
-        try:
-            model = joblib.load(r"./src/checkpoint/knn_custom_best.pkl")
-        except:
-            model = pickle.load(open(r"./src/checkpoint/knn_best_model.pkl", "rb"))
+        with open(r"./src/checkpoint/knn_params.json", "r") as f:
+            params = json.load(f)
+        img_size = params["img_size"]
+        bin_size = params["bin"]
+        model = joblib.load(r"./src/checkpoint/knn_best_model.pkl")
+
+        img = preprocess2(img, img_size=img_size, bin=bin_size)
 
         pred = knn_predict(img, model)
 
