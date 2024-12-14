@@ -17,10 +17,8 @@ st.title(f"Image Prediction using {model_type}")
 
 if model_type == "SVM":
     st.write("Support Vector Machine (SVM) is a powerful supervised learning model.")
-else:
-    st.write(
-        "K-Nearest Neighbors (KNN) predicts based on the closest training examples."
-    )
+elif model_type == "KNN":
+    st.write("K-Nearest Neighbors (KNN) predicts based on the closest training examples.")
 
 # upload image
 uploaded_image = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"])
