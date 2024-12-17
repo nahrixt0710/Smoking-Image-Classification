@@ -1,1 +1,7 @@
-{"img_size": 250, "bin": 16, "metric": "manhattan", "n_neighbors": 7, "weights": "distance"}
+{
+  "img_size": 250,
+  "bin": 16,
+  "metric": "manhattan",
+  "n_neighbors": 7,
+  "weights": "distance"
+}

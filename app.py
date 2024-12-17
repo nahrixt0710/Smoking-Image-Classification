@@ -11,14 +11,17 @@ st.set_page_config(page_title="Streamlit App", page_icon=":shark:")
 st.write("Upload an image and choose a model to make a prediction.")
 
 # choose model
-model_type = st.sidebar.selectbox("Choose Model", ["SVM", "KNN"])
+# model_type = st.sidebar.selectbox("Choose Model", ["SVM", "KNN"])
+model_type = "SVM"
 
 st.title(f"Image Prediction using {model_type}")
 
 if model_type == "SVM":
     st.write("Support Vector Machine (SVM) is a powerful supervised learning model.")
 elif model_type == "KNN":
-    st.write("K-Nearest Neighbors (KNN) predicts based on the closest training examples.")
+    st.write(
+        "K-Nearest Neighbors (KNN) predicts based on the closest training examples."
+    )
 
 # upload image
 uploaded_image = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"])
@@ -46,13 +49,13 @@ if uploaded_image is not None:
         img = preprocess2(img, img_size=img_size, bin=bin_size)
 
         pred = knn_predict(img, model)
-    elif model_type == "RF": 
-        with open(r"./src/checkpoint/rf_params.json", "r") as f: 
-            params = json.load(f) 
-        img_size = params["img_size"] 
-        bin_size = params["bin"] 
-        model = joblib.load(r"./src/checkpoint/rf_best_model.pkl") 
-        img = preprocess2(img, img_size=img_size, bin=bin_size) 
+    elif model_type == "RF":
+        with open(r"./src/checkpoint/rf_params.json", "r") as f:
+            params = json.load(f)
+        img_size = params["img_size"]
+        bin_size = params["bin"]
+        model = joblib.load(r"./src/checkpoint/rf_best_model.pkl")
+        img = preprocess2(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
     # Hiển thị kết quả dự đoán
     color = "green" if pred == "Not smoking" else "red"
