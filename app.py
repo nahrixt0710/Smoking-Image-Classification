@@ -12,7 +12,7 @@ st.write("Upload an image and choose a model to make a prediction.")
 
 # choose model
 model_type = st.sidebar.selectbox("Choose Model", ["SVM", "KNN", "RF"])
-model_type = "SVM"
+# model_type = "SVM"
 
 st.title(f"Image Prediction using {model_type}")
 
@@ -22,6 +22,8 @@ elif model_type == "KNN":
     st.write(
         "K-Nearest Neighbors (KNN) predicts based on the closest training examples."
     )
+elif model_type == "RF":
+    st.write("Random Forest is a powerful supervised learning model.")
 
 # upload image
 uploaded_image = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"])
@@ -76,7 +78,9 @@ if uploaded_image is not None:
         prediction = "Not smoking"
     else:
         prediction = "Smoking"
+
     color = "green" if prediction == "Not smoking" else "red"
+
     st.markdown(
         f"### Prediction ({model_type}): **:<span style='color:{color}'>{prediction}</span>**",
         unsafe_allow_html=True,

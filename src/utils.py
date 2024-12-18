@@ -59,24 +59,6 @@ def load_data_from_folder(folder_path):
 
     return np.array(data), np.array(labels)
 
-
-def svm_predict(image, model, bin_size=32, img_size=64):
-
-    features = preprocess2(image, img_size, bin_size)
-    prediction = model.predict([features])
-
-    return "Not smoking" if prediction[0] == 0 else "Smoking"
-
-
-# KNN predict func in app
-def knn_predict(image, model, bin_size=16, image_size=128):
-    prediction = model.predict([image])
-    return "Not smoking" if prediction[0] == 0 else "Smoking"
-
-
-# utils to optimize bin size and image size
-
-
 def load_raw_data(folder_path):
     data = []
     labels = []
