@@ -11,7 +11,7 @@ st.set_page_config(page_title="Streamlit App", page_icon=":shark:")
 st.write("Upload an image and choose a model to make a prediction.")
 
 # choose model
-# model_type = st.sidebar.selectbox("Choose Model", ["SVM", "KNN"])
+model_type = st.sidebar.selectbox("Choose Model", ["SVM", "KNN", "RF"])
 model_type = "SVM"
 
 st.title(f"Image Prediction using {model_type}")
@@ -37,29 +37,47 @@ if uploaded_image is not None:
 
     # predict with selected model
     if model_type == "SVM":
+        with open(r"./src/checkpoint/svm_params.json", "r") as f:
+            params = json.load(f)
+
+        img_size = params["img_size"]
+        bin_size = params["bin"]
+
         model = joblib.load(r"./src/checkpoint/svm_best_model.pkl")
-        pred = predict(img, model)
+
+        img = preprocess2(img, img_size=img_size, bin=bin_size)
+        pred = model.predict([img])[0]
+
     elif model_type == "KNN":
         with open(r"./src/checkpoint/knn_params.json", "r") as f:
             params = json.load(f)
+
         img_size = params["img_size"]
         bin_size = params["bin"]
+
         model = joblib.load(r"./src/checkpoint/knn_best_model.pkl")
 
         img = preprocess2(img, img_size=img_size, bin=bin_size)
+        pred = model.predict([img])[0]
 
-        pred = knn_predict(img, model)
     elif model_type == "RF":
         with open(r"./src/checkpoint/rf_params.json", "r") as f:
             params = json.load(f)
+
         img_size = params["img_size"]
         bin_size = params["bin"]
+
         model = joblib.load(r"./src/checkpoint/rf_best_model.pkl")
+
         img = preprocess2(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
-    # Hiển thị kết quả dự đoán
-    color = "green" if pred == "Not smoking" else "red"
+
+    if pred == 0:
+        prediction = "Not smoking"
+    else:
+        prediction = "Smoking"
+    color = "green" if prediction == "Not smoking" else "red"
     st.markdown(
-        f"### Prediction ({model_type}): **:<span style='color:{color}'>{pred}</span>**",
+        f"### Prediction ({model_type}): **:<span style='color:{color}'>{prediction}</span>**",
         unsafe_allow_html=True,
     )

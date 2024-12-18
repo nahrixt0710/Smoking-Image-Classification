@@ -60,9 +60,9 @@ def load_data_from_folder(folder_path):
     return np.array(data), np.array(labels)
 
 
-def predict(image, model):
+def svm_predict(image, model, bin_size=32, img_size=64):
 
-    features = preprocess(image)
+    features = preprocess2(image, img_size, bin_size)
     prediction = model.predict([features])
 
     return "Not smoking" if prediction[0] == 0 else "Smoking"
