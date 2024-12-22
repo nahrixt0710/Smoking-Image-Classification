@@ -70,7 +70,7 @@ def load_data_from_folder(folder_path):
         image = cv2.imread(img_path)
 
         if image is not None:
-            features = preprocess(image)
+            features = preprocess2(image)
             data.append(features)
             if img_name.lower().startswith("notsmoking"):
                 labels.append(0)
