@@ -47,7 +47,7 @@ if uploaded_image is not None:
 
         model = joblib.load(r"./src/checkpoint/svm_best_model.pkl")
 
-        img = preprocess2(img, img_size=img_size, bin=bin_size)
+        img = preprocess_hsv(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
 
     elif model_type == "KNN":
@@ -59,7 +59,7 @@ if uploaded_image is not None:
 
         model = joblib.load(r"./src/checkpoint/knn_best_model.pkl")
 
-        img = preprocess2(img, img_size=img_size, bin=bin_size)
+        img = preprocess_hsv(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
 
     elif model_type == "RF":
@@ -71,7 +71,7 @@ if uploaded_image is not None:
 
         model = joblib.load(r"./src/checkpoint/rf_best_model.pkl")
 
-        img = preprocess2(img, img_size=img_size, bin=bin_size)
+        img = preprocess_hsv(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
 
     if pred == 0:
