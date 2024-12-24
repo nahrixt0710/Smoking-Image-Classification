@@ -20,9 +20,10 @@ import numpy as np
 def extract_color_histogram_hsv(image, bins_h=180, bins_s=256, bins_v=256):
     
     # Tính histogram cho từng kênh HSV
-    hist_hue = cv2.calcHist([image], [0], None, [bins_h], [0, 180])
-    hist_saturation = cv2.calcHist([image], [1], None, [bins_s], [0, 256])
-    hist_value = cv2.calcHist([image], [2], None, [bins_v], [0, 256])
+    bin = 64
+    hist_hue = cv2.calcHist([image], [0], None, [bin], [0, 180])
+    hist_saturation = cv2.calcHist([image], [1], None, [bin], [0, 256])
+    hist_value = cv2.calcHist([image], [2], None, [bin], [0, 256])
     
     # Chuẩn hóa histogram về khoảng [0, 1]
     hist_hue = cv2.normalize(hist_hue, hist_hue, 0, 1, cv2.NORM_MINMAX)
