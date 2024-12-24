@@ -39,37 +39,37 @@ if uploaded_image is not None:
 
     # predict with selected model
     if model_type == "SVM":
-        with open(r"./src/checkpoint/svm_params.json", "r") as f:
+        with open(r"./src/checkpoint/svm_params_latest.json", "r") as f:
             params = json.load(f)
 
         img_size = params["img_size"]
         bin_size = params["bin"]
 
-        model = joblib.load(r"./src/checkpoint/svm_best_model.pkl")
+        model = joblib.load(r"./src/checkpoint/svm_best_model_latest.pkl")
 
         img = preprocess_hsv(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
 
     elif model_type == "KNN":
-        with open(r"./src/checkpoint/knn_params.json", "r") as f:
+        with open(r"./src/checkpoint/knn_params_latest.json", "r") as f:
             params = json.load(f)
 
         img_size = params["img_size"]
         bin_size = params["bin"]
 
-        model = joblib.load(r"./src/checkpoint/knn_best_model.pkl")
+        model = joblib.load(r"./src/checkpoint/knn_best_model_latest.pkl")
 
         img = preprocess_hsv(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
 
     elif model_type == "RF":
-        with open(r"./src/checkpoint/rf_params.json", "r") as f:
+        with open(r"./src/checkpoint/rf_params_latest.json", "r") as f:
             params = json.load(f)
 
         img_size = params["img_size"]
         bin_size = params["bin"]
 
-        model = joblib.load(r"./src/checkpoint/rf_best_model.pkl")
+        model = joblib.load(r"./src/checkpoint/rf_best_model_latest.pkl")
 
         img = preprocess_hsv(img, img_size=img_size, bin=bin_size)
         pred = model.predict([img])[0]
