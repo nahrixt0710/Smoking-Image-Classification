@@ -3,4 +3,6 @@
 __pycache__/
 tempCodeRunnerFile.py
 *.pyc
+knn_results.json
+knn_results.xlsx
 streamlit.py
