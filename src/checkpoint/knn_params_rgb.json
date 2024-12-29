@@ -1,0 +1,1 @@
+{"img_size": 512, "bin": 8, "metric": "euclidean", "n_neighbors": 11, "weights": "distance"}
