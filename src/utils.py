@@ -2,6 +2,8 @@ import os
 import cv2
 import numpy as np
 from skimage import feature, io, color
+import cv2
+import numpy as np
 
 BIN_SIZE = 8
 
@@ -14,30 +16,30 @@ def extract_color_histogram(image, bins=(BIN_SIZE, BIN_SIZE, BIN_SIZE)):
         hist.extend(channel_hist)
     return np.array(hist)
 
-import cv2
-import numpy as np
 
-def extract_color_histogram_hsv(image, bin=180):
-    
+def extract_color_histogram_hsv(image, bin=64):
+
     hist_hue = cv2.calcHist([image], [0], None, [bin], [0, 180])
     hist_saturation = cv2.calcHist([image], [1], None, [bin], [0, 256])
     hist_value = cv2.calcHist([image], [2], None, [bin], [0, 256])
-    
+
     hist_hue = cv2.normalize(hist_hue, hist_hue, 0, 1, cv2.NORM_MINMAX)
-    hist_saturation = cv2.normalize(hist_saturation, hist_saturation, 0, 1, cv2.NORM_MINMAX)
+    hist_saturation = cv2.normalize(
+        hist_saturation, hist_saturation, 0, 1, cv2.NORM_MINMAX
+    )
     hist_value = cv2.normalize(hist_value, hist_value, 0, 1, cv2.NORM_MINMAX)
-    
-    hist_vector = np.concatenate((hist_hue.flatten(),
-                                   hist_saturation.flatten(),
-                                   hist_value.flatten()))
-    
+
+    hist_vector = np.concatenate(
+        (hist_hue.flatten(), hist_saturation.flatten(), hist_value.flatten())
+    )
+
     return hist_vector
 
-# not used
+
 def preprocess_hsv(image, img_size=250, bin=180):
 
     image = cv2.resize(image, (img_size, img_size))
-    
+
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     # feature = extract_color_histogram(image)
@@ -46,7 +48,6 @@ def preprocess_hsv(image, img_size=250, bin=180):
     return feature
 
 
-# using
 def preprocess_rgb(image, img_size=250, bin=16):
 
     image = cv2.resize(image, (img_size, img_size))
@@ -55,6 +56,7 @@ def preprocess_rgb(image, img_size=250, bin=16):
     feature = extract_color_histogram(image, (bin, bin, bin))
 
     return feature
+
 
 def load_raw_data(folder_path):
     data = []
